@@ -3,6 +3,7 @@
 
 <head>
   {{>head}}
+  
 </head>
 
 <body>
@@ -42,61 +43,77 @@
   </header><!-- End Header -->
   <!-- End Header -->
 
-    <form  action="/getdata" method="GET" class="mx-1 mx-md-4">
+    {{!-- <div>Received doc_id: {{student._id}}</div> --}}
+    
+    
 
-                 
-                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    
-                    <button type="submit" class="btn btn-primary btn-lg">Display data</button>
-                    {{!-- <button type="submit">Send Message</button> --}}
-   
-                  </div>
-   
     <table class="table">
-      <thead>
+    <thead>
         <tr>
-          <th>Name</th>
-          <th>Roll No</th>
-          <th>Address</th>
-          <!-- Add more table headers for other fields as needed -->
+            <th>Name</th>
+            <th>Roll No</th>
+            <th>Address</th>
+            <th>Class</th>
+            <th>Marks</th>
+            <!-- Add more table headers for other fields as needed -->
         </tr>
-      </thead>
-      <tbody>
-        {{#each documents}}
+        
+    </thead>
+    <tbody>
         <tr>
-          <td>{{name}}</td>
-          <td>{{Roll_no}}</td>
-          <td>{{class}}</td>
-          <!-- Replace "name" and "email" with actual field names -->
-          <!-- Add more table cells for other fields as needed -->
-          <td>
-             {{!-- <a href="/send_id?_id={{_id}}" class="btn btn-primary btn-sm" style="color: white; text-decoration: none;">Profile page</a> --}}
-             <a href="/profile/{{_id}}" class="btn btn-primary btn-sm" style="color: white; text-decoration: none;">Profile page</a>
-
-                  
-            
-           
-
-
-          </td>
-          <td>
-            <form action="/delete/{{_id}}" method="POST">
-             <input type="hidden" name="_method" value="DELETE"> <!-- Use the DELETE method via method-override -->
-            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-            </form>
-          </td>
+            <td>{{student.name}}</td>
+            <td>{{student.address}}</td>
+            <td>{{student.Roll_no}}</td>
+            <td>{{student.class}}</td>
+            <td>{{student.subjects.name}}</td>
+            <td>
+                <ul>
+                    {{#each student.subjects}}
+                        <li>{{this.name}}: {{this.marks}}</li>
+                    {{/each}}
+                </ul>
+            </td>
+            <td>
+                <a href="javascript:void(0);" class="btn btn-primary btn-sm" style="color: white; text-decoration: none;" onclick="toggleForm('{{_id}}')">update marks</a>
+            </td>
         </tr>
-        {{/each}}
-      </tbody>
-    </table>
-                  
+    </tbody>
+</table>
 
-    </form>
+<div id="form_{{_id}}" style="display: none;">
+    
+<form action="/update_marks/{{student._id}}?_method=PATCH" method="POST">
+    <div>
+        <label for="name">Subject:</label>
+        <input type="text" id="name" name="name">
+    </div>
+
+    <div>
+        <label for="marks">Marks:</label>
+        <input type="number" id="marks" name="marks">
+    </div>
+
+    <button type="submit">Update</button>
+</form>
+
+
+
+</div>
+
+<script>
+    function toggleForm(id) {
+        var form = document.getElementById('form_' + id);
+        if (form.style.display === 'none') {
+            form.style.display = 'block';
+        } else {
+            form.style.display = 'none';
+        }
+    }
+</script>
+
+     
   
-  <!-- ======= Hero Section ======= -->
   
- 
-          
       
     
 
@@ -117,7 +134,7 @@
 
 
 
-  </main><!-- End #main -->
+  
 
 
 
@@ -126,9 +143,8 @@
   <!-- ======= Footer ======= -->
   {{>footer}}
   <!-- End Footer -->
-  {{>footJs}}
-  
 
+  {{>footJs}}
   <!-- Vendor JS Files -->
   {{!-- <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>

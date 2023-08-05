@@ -3,7 +3,7 @@ const path=require("path");//
 const hbs=require("hbs");
 const app=express();//
 const methodOverride = require('method-override');
-const bcrypt =require("bcryptjs");
+
 require("./db/conn");
 
 
@@ -34,7 +34,10 @@ const authenticateUser = (req, res, next) => {
 const protectedRoutes = [
      // Add URLs of pages you want to protect
     '/index',
-    '/students'
+    '/students',
+    '/register',
+    '/profile',
+    '/addStudent'
 ];
 
 app.use((req, res, next) => {
@@ -52,14 +55,16 @@ app.get("/logout", (req, res) => {
 
 // ... Other middleware setup ...
 
-
+//schema for database
 const Register_user=require("./models/register");
+const Student = require("./models/student_acadmic"); // Adjust the path
 
 const port=process.env.PORT||3000;//
 
 
 // this is the most importat part to use files inside the static folder
 const static_path=path.join(__dirname,"../public");
+// app.use('/assets', express.static(path.join(__dirname, "../public/assets")));
 app.use(express.static(static_path));
 
 // ****************************************************
@@ -90,6 +95,12 @@ app.get("/register",(req,res)=>{
 app.get("/students",(req,res)=>{
     res.render("students");//register page
 })
+app.get("/profile",(req,res)=>{
+    res.render("profile");//register page
+})
+app.get("/addStudent",(req,res)=>{
+    res.render("addStudent");//register page
+})
 
 console.log(__dirname);
 
@@ -115,9 +126,99 @@ app.post('/delete/:id', async (req, res) => {
     }
 });
 
+
+app.get('/send_id', (req, res) => {
+    const _id = req.query._id;
+    res.render('profile', { _id }); // Render the profile page and pass the _id
+});
+
+app.patch("/update_marks/:studentId", async (req, res) => {
+    try {
+        const studentId = req.params.studentId;
+        const subjectName = req.body.name;
+        const newMarks = req.body.marks;
+        console.log(subjectName,newMarks);
+        // Find the student by ID
+        const student = await Student.findById(studentId);
+
+        if (!student) {
+            return res.status(404).send("Student not found.");
+        }
+
+        // Find the subject within the student's subjects array
+        const subjectToUpdate = student.subjects.find(subject => subject.name === subjectName);
+
+        if (!subjectToUpdate) {
+            return res.status(404).send("Subject not found for the student.");
+        }
+
+        // Update the marks for the subject
+        subjectToUpdate.marks = newMarks;
+
+        // Save the updated student object
+        await student.save();
+        res.redirect(`/profile/${studentId}`);
+        // res.send("Marks updated successfully.");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal server error.");
+    }
+});
+
+app.get('/profile/:id', async (req, res) => {
+    try {
+        const studentId = req.params.id;
+        const student = await Student.findById(studentId);
+
+        if (!student) {
+            return res.status(404).send('Student not found');
+        }
+
+        res.render('profile', { student });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+
+
+
+
+  
+app.post("/register_student", async (req, res) => {
+    try {
+        // Extract data from the request body
+        // const { name, email, address, class: TE9, subjects } = req.body;
+
+        // Create a new student object using the Student model
+        const newStudent = new Student({
+            name:req.body.name,
+            Roll_no:req.body.Roll_no,
+            address:req.body.address,
+            class:req.body.class,
+            
+        });
+
+        // Save the new student to the database
+        const savedStudent = await newStudent.save();
+        console.log(savedStudent);
+        // res.status(201).json(savedStudent); // Return the created student
+        // res.redirect("/addStudent?success=true");
+        // res.redirect("addStudent",{success});
+
+        setTimeout(() => {
+            res.redirect("/addStudent?warning=true");
+        }, 1000);
+    } catch (error) {
+        console.error("Error registering student:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 app.get('/getdata', async (req, res) => {
     try {
-      const documents = await Register_user.find({});
+      const documents = await Student.find({});
     //   console.log(documents);
       res.render('students', { documents });
     } catch (err) {
@@ -126,6 +227,13 @@ app.get('/getdata', async (req, res) => {
     }
 });
 
+
+
+
+
+
+
+//teacher section
 app.post("/login",async(req,res)=>{
     try{
         const email=req.body.email;

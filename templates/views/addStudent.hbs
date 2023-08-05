@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {{>head}}
+  <style>
+    /* Center the form and add some padding */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style form labels */
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Style form inputs */
+form input[type="text"],
+form input[type="Roll_no"],
+form input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* Style the submit button */
+form button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Style the subject and marks fields */
+form div.subject-field {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+form div.subject-field label {
+    margin-right: 10px;
+}
+
+/* Add some margin to the bottom of the form */
+form div:last-child {
+    margin-bottom: 0;
+}
+
+.success-message {
+    color: green;
+    margin-top: 10px;
+}
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <section id="topbar" class="topbar d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:contact@example.com"></a></i>
+        <i class="bi bi-phone d-flex align-items-center ms-4"><span></span></i>
+      </div>
+      <div class="social-links d-none d-md-flex align-items-center">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+      </div>
+    </div>
+  </section><!-- End Top Bar -->
+
+  <header id="header" class="header d-flex align-items-center">
+
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1>StudentOcean<span>.</span></h1>
+      </a>
+      
+      {{>navbar}}<!-- .navbar -->
+
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+    </div>
+    
+  </header><!-- End Header -->
+  <!-- End Header -->
+    {{#if success}}
+    <div class="success-message">Student added successfully!</div>
+    {{/if}}
+    <form action="/register_student" method="POST">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+        <label for="Roll_no">Roll No:</label>
+        <input type="Roll_no" id="Roll_no" name="Roll_no" required>
+    </div>
+    <div>
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address">
+    </div>
+    <div>
+        <label for="class">Class:</label>
+        <input type="text" id="class" name="class">
+    </div>
+
+    <!-- Subject and Marks Fields -->
+   
+    <!-- You can add more subject and marks fields as needed -->
+
+    <button type="submit">Create Student</button>
+</form>
+
+   
+  
+  
+      
+    
+
+         
+    
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+  <!-- ======= Footer ======= -->
+  {{>footer}}
+  <!-- End Footer -->
+
+  {{>footJs}}
+  
+
+</body>
+
+</html>
