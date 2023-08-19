@@ -2,8 +2,48 @@
 <html lang="en">
 
 <head>
-  {{>head}}
   
+
+  {{>head}}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* Common styles for both cards */
+.student-cards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+  gap: 20px; /* Gap between columns */
+}
+
+.student-info-card,
+.marks-update-card {
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+/* Media query for tablets and smaller screens */
+@media (max-width: 768px) {
+  .student-cards-container {
+    grid-template-columns: 1fr; /* Single column stacking on small screens */
+  }
+
+  .student-info-card,
+  .marks-update-card {
+    border: none;
+    padding: 10px;
+  }
+}
+
+/* Media query for mobile phones */
+@media (max-width: 576px) {
+  .student-cards-container {
+    gap: 10px;
+  }
+}
+
+
+
+</style>
 </head>
 
 <body>
@@ -47,56 +87,52 @@
     
     
 
-    <table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Roll No</th>
-            <th>Address</th>
-            <th>Class</th>
-            <th>Marks</th>
-            <!-- Add more table headers for other fields as needed -->
-        </tr>
-        
-    </thead>
-    <tbody>
-        <tr>
-            <td>{{student.name}}</td>
-            <td>{{student.address}}</td>
-            <td>{{student.Roll_no}}</td>
-            <td>{{student.class}}</td>
-            <td>{{student.subjects.name}}</td>
-            <td>
-                <ul>
-                    {{#each student.subjects}}
-                        <li>{{this.name}}: {{this.marks}}</li>
-                    {{/each}}
-                </ul>
-            </td>
-            <td>
-                <a href="javascript:void(0);" class="btn btn-primary btn-sm" style="color: white; text-decoration: none;" onclick="toggleForm('{{_id}}')">update marks</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+   <table class="table">
+  <thead>
+    <h1 >student Info</h1>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="4"> <!-- Create a single cell spanning 4 columns -->
+       <div class="student-cards-container">
+        <div class="student-info-card">
+          <h3>Name:{{student.name}}</h3>
+          <p>Address:{{student.address}}</p>
+          <p>Roll No: {{student.Roll_no}}</p>
+          <p>Class: {{student.class}}</p>
+        </div>
+        <div class="marks-update-card">
+          <ul>
+            {{#each student.subjects}}
+              <li>{{this.name}}: {{this.marks}}</li>
+            {{/each}}
+          </ul>
+          
 
-<div id="form_{{_id}}" style="display: none;">
+          <a href="javascript:void(0);" class="btn btn-primary btn-sm" style="color: white; text-decoration: none;" onclick="toggleForm('{{_id}}')">Update Marks</a>
+          <div id="form_{{_id}}" style="display: none;">
+          
+                <form action="/update_marks/{{student._id}}?_method=PATCH" method="POST">
+                    <div>
+                        <label for="name">Subject:</label>
+                        <input type="text" id="name" name="name">
+                    </div>
+
+                    <div>
+                        <label for="marks">Marks:</label>
+                        <input type="number" id="marks" name="marks">
+                    </div>
+
+                    <button type="submit">Update</button>
+                </form>
+              </div>
+        </div>
+              
+      </td>
+    </tr>
     
-<form action="/update_marks/{{student._id}}?_method=PATCH" method="POST">
-    <div>
-        <label for="name">Subject:</label>
-        <input type="text" id="name" name="name">
-    </div>
-
-    <div>
-        <label for="marks">Marks:</label>
-        <input type="number" id="marks" name="marks">
-    </div>
-
-    <button type="submit">Update</button>
-</form>
-
-
+  </tbody>
+</table>
 
 </div>
 
@@ -109,6 +145,7 @@
             form.style.display = 'none';
         }
     }
+    
 </script>
 
      
@@ -145,17 +182,7 @@
   <!-- End Footer -->
 
   {{>footJs}}
-  <!-- Vendor JS Files -->
-  {{!-- <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script> --}}
+  
 
 </body>
 

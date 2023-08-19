@@ -101,8 +101,11 @@ app.get("/profile",(req,res)=>{
 app.get("/addStudent",(req,res)=>{
     res.render("addStudent");//register page
 })
+app.get("/Notes",(req,res)=>{
+    res.render("Notes");//register page
+})
 
-console.log(__dirname);
+// console.log(__dirname);
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}))
