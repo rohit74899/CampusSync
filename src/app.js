@@ -6,9 +6,6 @@ const methodOverride = require('method-override');
 
 require("./db/conn");
 
-
-
-
 //session part
 
 const session = require('express-session');
@@ -116,6 +113,7 @@ app.post('/delete/:id', async (req, res) => {
   
     try {
       const deletedDocument = await Register_user.findByIdAndDelete(documentId);
+
       if (!deletedDocument) {
         return res.status(404).send('Document delete unsuccess');
       }
@@ -183,12 +181,7 @@ app.get('/profile/:id', async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
-
-
-
-
-
-  
+ 
 app.post("/register_student", async (req, res) => {
     try {
         // Extract data from the request body
