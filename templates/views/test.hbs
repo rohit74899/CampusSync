@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {{>head}}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Common styles for both forms */
+form {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style form labels */
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+    form input[type="text"],
+    form input[type="Roll_no"],
+    form input[type="number"] ,
+    form input[type="subject"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+   form button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Style the subject and marks fields */
+form div.subject-field {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+form div.subject-field label {
+    margin-right: 10px;
+}
+
+/* Add some margin to the bottom of the form */
+form div:last-child {
+    margin-bottom: 0;
+}
+
+    /* Style for the first form */
+    form#form1 {
+      max-width: 400px;
+    margin: 50px auto; /* Set auto for horizontal centering */
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 20px;
+    border: 1px solid #ccc;
+  border-radius: 5px;
+       
+    }
+
+    /* Style for the second form */
+    form#form2 {
+      
+      max-width: 1200px; /* Adjust the width as needed */
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <section id="topbar" class="topbar d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:contact@example.com"></a></i>
+        <i class="bi bi-phone d-flex align-items-center ms-4"><span></span></i>
+      </div>
+      <div class="social-links d-none d-md-flex align-items-center">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+      </div>
+    </div>
+  </section><!-- End Top Bar -->
+
+  <header id="header" class="header d-flex align-items-center">
+
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1>StudentOcean<span>.</span></h1>
+      </a>
+      
+      {{>navbar}}<!-- .navbar -->
+
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+    </div>
+    
+  </header>
+  <!-- End Header -->
+  <!-- End Header -->
+              
+                <form id="form1" action="/getdata_for_test" method="GET"  style="margin-left: 500px;">
+
+                        
+                        <div>
+                            <label for="Roll_no">Title</label>
+                            <input type="text" id="Title" name="Title"  placeholder="Test Name" required>
+                        </div>
+                      
+                        <div class="form-group">
+                                <label for="subject">Subject:</label>
+                                <select class="form-control" id="subject" name="subject">
+                                <option value="Math">Math</option>
+                                  <option value="Science">Science</option>
+                                  <option value="History">History</option>
+                                </select>
+                              </div>
+                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                          
+                          <button type="submit" class="btn btn-primary btn-lg" onclick="showForm2()">Create Test</button>
+                          
+                        </div>
+                </form>
+
+
+
+          <div class="modal" tabindex="-1" role="dialog" id="form2Modal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Update Students' Marks</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              
+          
+
+
+
+              <div class="modal-body">
+
+                <span id="form2Title"></span>
+                  <input type="hidden" id="form2Subject" name="form2Subject">
+
+                <!-- Form 2 content -->
+                <form id="form2" action="Update_students_marks?_method=PATCH" method="POST">
+                    <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Roll No</th>
+                  <th>Class</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                {{#each documents}}
+                <tr>
+                  <td>{{name}}</td>
+                  <td>{{Roll_no}}</td>
+                  <td>{{class}}</td>
+                  
+                  <td>
+                    <input type="text" name="subject" placeholder="Subject">
+                    
+
+                  </td>
+                  <td>
+                    <input type="text" name="Marks" placeholder="Marks">
+                  </td>
+                  <td>
+                    
+                  </td>
+                </tr>
+                {{/each}}
+              </tbody>
+                
+            </table>
+                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                            
+                            <button type="submit" class="btn btn-primary btn-lg">Save Data</button>
+                </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm2()">Save Data</button>
+              </div>
+            </div>
+          </div>
+          <script>
+        // Function to show form2 when "Create Test" button is clicked
+        function showForm2() {
+            // Get data from Form 1
+            var title = $('#Title').val();
+            var subject = $('#subject').val();
+
+            // Set data in Form 2
+            $('#form2Title').text('Update Students\' Marks - ' + title);
+            $('#form2Subject').val(subject);
+
+            // Open Form 2 modal
+            $('#form2Modal').modal('show');
+        }
+
+        // Function to handle form submission for updating marks
+        function submitForm2() {
+            // Additional actions if needed
+
+            // Submit the form
+            $('form#form2').submit();
+
+            // Close the modal
+            $('#form2Modal').modal('hide');
+        }
+    </script>
+      </div>
+  <!-- ======= Hero Section ======= -->
+  
+
+
+<script>
+  // Function to show form2 when "Create Test" button is clicked
+  function showForm2() {
+    $('#form2Modal').modal('show');
+  }
+
+  // Function to handle form submission for updating marks
+  function submitForm2() {
+    // Additional actions if needed
+
+    // Submit the form
+    $('form#form2').submit();
+
+    // Close the modal
+    $('#form2Modal').modal('hide');
+  }
+</script>
+<!-- Your JavaScript (e.g., using jQuery) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+          
+      
+    
+
+         
+    
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+
+  </main><!-- End #main -->
+
+
+
+
+
+  <!-- ======= Footer ======= -->
+  {{>footer}}
+  <!-- End Footer -->
+  {{>footJs}}
+  
+
+
+
+</body>
+
+</html>

@@ -7,7 +7,7 @@ const subjectSchema = new mongoose.Schema({
     },
     marks: {
         type: Number,
-        default: 0 // Default marks for a subject
+        default: 0 
     }
 });
 

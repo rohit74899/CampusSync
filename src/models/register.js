@@ -1,6 +1,5 @@
 const mongoose=require("mongoose");
-// const validator=require("validator");
-const bcrypt = require("bcryptjs");
+
 const user= new mongoose.Schema({
     name:{
         type:String,
@@ -9,6 +8,7 @@ const user= new mongoose.Schema({
     email:{
         type:String,
         unique:true
+        
     },
     password:{
         type:String,
@@ -22,9 +22,6 @@ const user= new mongoose.Schema({
 
     }
 })
-
-
-
 
 
 // we create a collection

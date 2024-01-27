@@ -34,7 +34,8 @@ const protectedRoutes = [
     '/students',
     '/register',
     '/profile',
-    '/addStudent'
+    '/addStudent',
+    
 ];
 
 app.use((req, res, next) => {
@@ -99,8 +100,17 @@ app.get("/addStudent",(req,res)=>{
     res.render("addStudent");//register page
 })
 app.get("/Notes",(req,res)=>{
+    
     res.render("Notes");//register page
 })
+app.get("/test",(req,res)=>{
+    
+    res.render("test");//register page
+})
+
+
+
+
 
 // console.log(__dirname);
 
@@ -128,6 +138,22 @@ app.post('/delete/:id', async (req, res) => {
 });
 
 
+
+app.patch("/Update_students_marks", async (req, res) => {
+    try {
+        const studentId = req.params.studentId;
+        const subjectName = req.body.subject;
+        const newMarks = req.body.marks;
+        console.log("Request Body:", req.body);
+        
+
+        
+        // res.send("Marks updated successfully.");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal server error.");
+    }
+});
 app.get('/send_id', (req, res) => {
     const _id = req.query._id;
     res.render('profile', { _id }); // Render the profile page and pass the _id
@@ -136,8 +162,9 @@ app.get('/send_id', (req, res) => {
 app.patch("/update_marks/:studentId", async (req, res) => {
     try {
         const studentId = req.params.studentId;
-        const subjectName = req.body.name;
+        const subjectName = req.body.subject;
         const newMarks = req.body.marks;
+        console.log("Request Body:", req.body);
         console.log(subjectName,newMarks);
         // Find the student by ID
         const student = await Student.findById(studentId);
@@ -223,7 +250,16 @@ app.get('/getdata', async (req, res) => {
     }
 });
 
-
+app.get('/getdata_for_test', async (req, res) => {
+    try {
+      const documents = await Student.find({});
+      console.log(documents);
+      res.render('test', { documents });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Server Error');
+    }
+});
 
 
 
